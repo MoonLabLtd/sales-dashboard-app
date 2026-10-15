@@ -1,9 +1,7 @@
 # Ledgerline — Product Blueprint & Agent Build Guide
 
 > **What this repository is.** The complete specification and build plan for **Ledgerline**, a local-first sales
-> dashboard. It is written so that *any* capable coding agent (Claude Code, Codex, Cursor, Gemini CLI, Aider, …) can
-> build the product from an empty directory, following a phased plan with objective gates. It contains documentation
-> only. No application code is provided; the agent designs and writes all of it from these specs.
+> dashboard. 
 
 ## 1. Executive Summary
 
