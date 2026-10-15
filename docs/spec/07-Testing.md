@@ -1,6 +1,6 @@
 # 07 — Testing
 
-This is the test plan for Ledgerline. The implementing agent writes every test listed here. Together they are the
+This is the test plan for Ledgerline. Every test listed here must be implemented. Together they are the
 acceptance spec: a build is done only when every case passes with the values stated below. Domain rules live in
 [03-Domain-Rules.md](03-Domain-Rules.md), the schema in [04-Data-Model.md](04-Data-Model.md), service signatures in
 [05-Backend-and-API.md](05-Backend-and-API.md), and UI copy in [06-Frontend-and-Design.md](06-Frontend-and-Design.md).
@@ -313,5 +313,5 @@ defaults (walk-in customer, card, completed, tax 0) so that 3 × 12.50 totals `$
 | `pnpm test:e2e:install` | `playwright install chromium` | one-time setup before the first e2e run |
 
 `pnpm typecheck` is `next typegen && tsc --noEmit`. The work is complete only when `pnpm test`, `pnpm test:e2e` and
-`pnpm check` are all green on the same tree. Track progress in [../../TODO.md](../../TODO.md) and follow
-[../../AGENTS.md](../../AGENTS.md).
+`pnpm check` are all green on the same tree. Track progress in [../../BUILD_PLAN.md](../../BUILD_PLAN.md) and follow
+[../../CONTRIBUTING.md](../../CONTRIBUTING.md).

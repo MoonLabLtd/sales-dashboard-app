@@ -112,7 +112,7 @@ required final value of every configuration file.
    `pnpm add -D typescript@^6.0.3 eslint@^9 eslint-config-next@16.4.0 prettier@^3.9.10 tailwindcss@^4 @tailwindcss/turbopack@^4 shadcn@4.21.4 drizzle-kit@0.31.11 tsx@^4.23.15 vitest@5.0.4 @playwright/test@1.64.0 @types/node@^24.19.2 @types/react@^19 @types/react-dom@^19 @types/better-sqlite3@^9.6.0 @types/papaparse@^5.5.2`
 7. Initialise shadcn/ui non-interactively:
    `CI=1 pnpm dlx shadcn@4.21.4 init -b radix -p nova -y --no-monorepo --no-rtl`.
-   Without `CI=1` the CLI prompts and blocks an unattended agent. It writes `components.json` (section 4.9) and
+   Without `CI=1` the CLI prompts and blocks a non-interactive run. It writes `components.json` (section 4.9) and
    `src/lib/utils.ts`, and rewrites `src/app/globals.css`.
 8. Add the shadcn components in one command:
    `pnpm dlx shadcn@4.21.4 add alert-dialog avatar badge button calendar card chart checkbox command dialog dropdown-menu empty field input-group input kbd label popover select separator sheet sidebar skeleton sonner table tabs textarea toggle toggle-group tooltip`.
@@ -358,7 +358,7 @@ No jsdom, no setup files, no coverage thresholds. Tests never touch `data/`; the
 | `webServer.reuseExistingServer` | `false` | Always a fresh server and database |
 | `webServer.timeout` | `180000` | First compile can be slow |
 
-### 4.14 `AGENTS.md` (framework-managed)
+### 4.14 `AGENTS.md` (framework-managed by Next.js)
 
 `next dev` keeps a block delimited by `<!-- BEGIN:nextjs-agent-rules -->` and `<!-- END:nextjs-agent-rules -->`
 in `AGENTS.md` at the project root and re-adds it whenever it is removed. Keep the file and commit it.
@@ -370,7 +370,7 @@ in the documents named in the comments (01 to 09 refer to the sibling spec files
 
 ```text
 .
-├── AGENTS.md                     Framework-managed agent rules block (section 4.14)
+├── AGENTS.md                     Created and maintained by `next dev` (section 4.14)
 ├── README.md                     User readme: prerequisites, quick start, database, demo data, backups, metrics, tests, troubleshooting, limitations
 ├── package.json                  4.1
 ├── pnpm-lock.yaml                Lockfile written by pnpm install (committed)
@@ -497,5 +497,5 @@ in the documents named in the comments (01 to 09 refer to the sibling spec files
 | Scripts | `tsx` executes scripts as CommonJS, so top-level `await` is not available: async scripts wrap their body in an `async function main()` whose rejection prints the error message and exits with code 1. |
 | Generated directories | `.next/`, `data/`, `.tmp/`, `test-results/`, `playwright-report/` are never committed. |
 
-See [../../ARCHITECTURE.md](../../ARCHITECTURE.md) for the layering rationale and [../../TODO.md](../../TODO.md) for
+See [../../ARCHITECTURE.md](../../ARCHITECTURE.md) for the layering rationale and [../../BUILD_PLAN.md](../../BUILD_PLAN.md) for
 the build order.

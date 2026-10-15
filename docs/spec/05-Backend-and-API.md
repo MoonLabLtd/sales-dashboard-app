@@ -637,4 +637,4 @@ and use the `@/` path alias from `tsconfig.json`, which `tsx` resolves. Each ope
 - Exported CSVs start with a BOM, use CRLF, and prefix `'` to cells starting with `=`, `+`, `-`, `@`.
 
 Traceability is in [10-Requirements-Traceability.md](10-Requirements-Traceability.md); build order is in
-[../../TODO.md](../../TODO.md).
+[../../BUILD_PLAN.md](../../BUILD_PLAN.md).

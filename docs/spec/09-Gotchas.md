@@ -29,7 +29,7 @@ Read the whole list before Phase 1 and again before Phases 5 and 6.
 9. `next build` type-checks the **whole** tsconfig project, including tests and scripts.
 10. Navigation keeps hidden routes mounted (Activity). Keep dialog state in global stores, not in a page's local
     state, so dialogs don't reappear unexpectedly.
-11. `next dev` writes an `AGENTS.md` "nextjs-agent-rules" block into the app root; keep that file under version
+11. `next dev` writes a managed block into `AGENTS.md` in the app root; keep that file under version
     control so it stops showing up as a change.
 
 ## Libraries
@@ -70,7 +70,7 @@ Read the whole list before Phase 1 and again before Phases 5 and 6.
     `projectRoot()` looks for `package.json` with `name: "sales-dashboard"`, so don't rename the package (or set
     `SALES_DASHBOARD_ROOT`).
 
-## Agent workflow
+## Workflow
 
 26. Long tool output (test runners, builds) can get truncated or mangled. Redirect it to a log file and read the
     summary lines.

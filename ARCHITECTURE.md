@@ -1,7 +1,7 @@
 # Ledgerline — Solution Architecture Design
 
 Companion to [`docs/spec/`](docs/spec/). Where this document and a spec disagree, the spec wins (see the conflict
-rule in [`AGENTS.md`](AGENTS.md)).
+rule in [`CONTRIBUTING.md`](CONTRIBUTING.md#reading-order)).
 
 ## 1. Architecture Principles
 
@@ -140,7 +140,7 @@ starting from any working directory uses the same file. Override it with `SALES_
 
 ## 10. Build Evolution (phases with gates)
 
-The build is staged so each layer is proven before the next depends on it. Details are in [`TODO.md`](TODO.md).
+The build is staged so each layer is proven before the next depends on it. Details are in [`BUILD_PLAN.md`](BUILD_PLAN.md).
 
 | Phase | Delivers | Gate |
 | --- | --- | --- |
@@ -205,4 +205,4 @@ The build is staged so each layer is proven before the next depends on it. Detai
 Confidence comes from layered, automated evidence gathered during the build: unit tests for pure domain rules,
 integration tests on temporary SQLite files for every service, an HTTP contract gate with curl, Playwright e2e tests
 for the main journeys, a production build that must not touch the DB, and manual checks of every page in light/dark
-and at 390 px with a clean console. See [`docs/spec/07-Testing.md`](docs/spec/07-Testing.md) and [`TODO.md`](TODO.md).
+and at 390 px with a clean console. See [`docs/spec/07-Testing.md`](docs/spec/07-Testing.md) and [`BUILD_PLAN.md`](BUILD_PLAN.md).

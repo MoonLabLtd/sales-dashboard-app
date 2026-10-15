@@ -369,6 +369,6 @@ Single column, max width 48rem. Three cards in order: Preferences, Data & storag
 4. Below 768px the sidebar is a drawer; at 390px wide no page scrolls horizontally.
 5. The metric rules in [03-Domain-Rules.md](03-Domain-Rules.md) hold for every figure on every page.
 6. Every FR and NFR above is covered in [10-Requirements-Traceability.md](10-Requirements-Traceability.md). Build
-   order is in [TODO.md](../../TODO.md), structure in [ARCHITECTURE.md](../../ARCHITECTURE.md), working rules in
-   [AGENTS.md](../../AGENTS.md); pitfalls in [09-Gotchas.md](09-Gotchas.md); stack in
+   order is in [BUILD_PLAN.md](../../BUILD_PLAN.md), structure in [ARCHITECTURE.md](../../ARCHITECTURE.md), working rules in
+   [CONTRIBUTING.md](../../CONTRIBUTING.md); pitfalls in [09-Gotchas.md](09-Gotchas.md); stack in
    [02-Environment-and-Stack.md](02-Environment-and-Stack.md).

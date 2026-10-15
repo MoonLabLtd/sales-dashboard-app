@@ -1,17 +1,17 @@
 # 10 — Requirements Traceability
 
 This table maps each requirement to the modules that implement it and the test or gate that proves it. Use it as the
-checklist for Final acceptance step **F1** in [`TODO.md`](../../TODO.md).
+checklist for Final acceptance step **F1** in [`BUILD_PLAN.md`](../../BUILD_PLAN.md).
 
 - Requirement IDs (FR-xx, NFR-xx) come from [`01-Product-Spec.md`](01-Product-Spec.md).
 - Test IDs (T-U-xx unit, T-I-xx integration, T-E-xx end-to-end) come from [`07-Testing.md`](07-Testing.md).
-- **G1–G8** are phase gates and **F1–F9** are Final acceptance steps in [`TODO.md`](../../TODO.md).
+- **G1–G8** are phase gates and **F1–F9** are Final acceptance steps in [`BUILD_PLAN.md`](../../BUILD_PLAN.md).
 - "Browser check" means the Gate 7 checklist: verify by hand in a real browser, or with Playwright or DevTools.
 - Module paths are relative to the app root, and they are the layout required by
   [`02-Environment-and-Stack.md`](02-Environment-and-Stack.md).
 
 A requirement counts as done only when every listed proof passes. If a row has only a browser check, record what you
-observed in the final report.
+observed in the build report.
 
 ## 1. Functional requirements
 
@@ -80,4 +80,4 @@ observed in the final report.
 ## 4. Coverage check
 
 - Every T-U, T-I and T-E case in 07 appears at least once above.
-- Every requirement with only a "browser check" must be listed, with what you observed, in the F9 report.
+- Every requirement with only a "browser check" must be listed, with what you observed, in the F9 build report.

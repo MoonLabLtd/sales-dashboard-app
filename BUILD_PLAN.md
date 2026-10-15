@@ -1,8 +1,8 @@
 # Ledgerline — Build Plan & Gates
 
-This is the plan you **execute**. It is ordered, and every phase ends with a **Gate**: a phase is done only when the
-gate results match. Work from the **app root** (the empty directory you started in), with `PLAN` pointing to this
-guide and Node 24 first on `PATH`.
+This is the build plan. It is ordered, and every phase ends with a **Gate**: a phase is done only when the
+gate results match. Work from the **app root** (the empty directory you started in), with `SPEC` pointing to this
+repository and Node 24 first on `PATH`.
 
 ## 1. Build Approach
 
@@ -15,12 +15,12 @@ guide and Node 24 first on `PATH`.
 | Data safety | Gates use `SALES_DB_PATH=.tmp/<phase>/sales.db` and delete it afterwards. Never create or modify `data/` except in Final acceptance step F7 |
 | Logs | Redirect long output, for example `pnpm test > .tmp/test.log 2>&1; tail -20 .tmp/test.log` |
 | Servers | Start dev/prod servers in the background, wait until the port answers, and always stop them at the end of the phase |
-| Commits | Only if the user asks. If they do, one commit per passed gate is a good rhythm |
+| Commits | One commit per passed gate is a good rhythm |
 
 Shell setup used by every phase:
 
 ```bash
-export PLAN=/absolute/path/to/ledgerline-guide   # this guide
+export SPEC=/absolute/path/to/ledgerline-spec    # this repository
 export PATH="/path/to/node24/bin:$PATH"          # only if your default node is not v24
 mkdir -p .tmp
 ```
@@ -43,10 +43,10 @@ mkdir -p .tmp
 **Read:** [`README.md`](README.md) §6, [`ARCHITECTURE.md`](ARCHITECTURE.md),
 [`02-Environment-and-Stack.md`](docs/spec/02-Environment-and-Stack.md), [`09-Gotchas.md`](docs/spec/09-Gotchas.md).
 
-- [ ] **P0.1** Check the prerequisites. `node -v` must be v24.x. If it is not, **stop and tell the user**; do not
-  continue on another Node major.
+- [ ] **P0.1** Check the prerequisites. `node -v` must be v24.x. If it is not, **stop and fix the toolchain**; do
+  not continue on another Node major.
 - [ ] **P0.2** Run `corepack enable` if `pnpm` is missing or not 11.x. Check that `git` is installed.
-- [ ] **P0.3** Confirm the app directory is empty (apart from hidden agent folders).
+- [ ] **P0.3** Confirm the app directory is empty (apart from hidden tool folders such as `.git` or editor settings).
 
 **GATE 0**
 ```bash
@@ -265,9 +265,9 @@ Run every item and report the result of each with the command and the observed o
     sale total is $41.25);
   - edit it to **Refunded** → revenue drops back and the refunded amount appears in the KPI note;
   - no negative amounts anywhere.
-  Afterwards stop the server and delete the test data (Settings → Erase all, or `rm -rf data`) unless the user
-  wants to keep it.
-- [ ] **F9 Report**: what you built, dependency versions (`pnpm list --depth 0`), DB location, every command with its
+  Afterwards stop the server and delete the test data (Settings → Erase all, or `rm -rf data`) unless you want
+  to keep it.
+- [ ] **F9 Report**: what was built, dependency versions (`pnpm list --depth 0`), DB location, every command with its
   result, every decision the specs left open, and every deviation with the reason. Separate verified from not
   verified.
 
@@ -307,5 +307,5 @@ layer compiles only against earlier ones. Within a phase, independent files can 
 ## Appendix D — Change Control
 
 The specs are the contract. If you find a genuine contradiction or gap, resolve it with the conflict rule in
-[`AGENTS.md`](AGENTS.md), implement the simplest consistent behaviour, and record it in the final report. Do not
+[`CONTRIBUTING.md`](CONTRIBUTING.md), implement the simplest consistent behaviour, and record it in the build report. Do not
 change gates, test expectations or requirement IDs.

@@ -1,6 +1,6 @@
 # Spec index
 
-Ten binding specs. [`TODO.md`](../../TODO.md) tells you when to read each one; this page helps you find a fact fast.
+Ten binding specs. [`BUILD_PLAN.md`](../../BUILD_PLAN.md) tells you when to read each one; this page helps you find a fact fast.
 
 ## Files
 

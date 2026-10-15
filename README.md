@@ -1,7 +1,7 @@
-# Ledgerline — Product Blueprint & Agent Build Guide
+# Ledgerline — Product Specification & Build Plan
 
 > **What this repository is.** The complete specification and build plan for **Ledgerline**, a local-first sales
-> dashboard. 
+> dashboard.
 
 ## 1. Executive Summary
 
@@ -11,7 +11,7 @@ products and customers, and it shows revenue, trends, rankings and insights. Dat
 `pnpm install && pnpm dev` is the whole setup.
 
 The specs fix every decision that affects behaviour: stack and versions, data model, money and metric rules, API
-contract, UI structure, design tokens, copy, and test cases. The agent should not have to guess. Where the specs
+contract, UI structure, design tokens, copy, and test cases. Nothing should need to be guessed. Where the specs
 leave room (internal helper names, markup details), any choice is fine as long as every requirement and test passes.
 
 ## 2. What gets built
@@ -29,35 +29,35 @@ leave room (internal helper names, markup details), any choice is fine as long a
 
 The full functional specification is in [`docs/spec/01-Product-Spec.md`](docs/spec/01-Product-Spec.md).
 
-## 3. How to use this guide
+## 3. Getting started
 
 1. Install the [prerequisites](#6-prerequisites).
-2. Clone this repo, create an **empty sibling directory** for the app, and open your agent in it:
+2. Clone this repository next to an **empty directory** for the app:
    ```bash
-   git clone https://github.com/MoonLabLtd/sales-dashboard-app.git ledgerline-guide
+   git clone https://github.com/MoonLabLtd/sales-dashboard-app.git ledgerline-spec
    mkdir ledgerline && cd ledgerline
+   export SPEC="$(cd ../ledgerline-spec && pwd)"
    ```
-3. Paste [`AGENT_PROMPT.md`](AGENT_PROMPT.md) into the agent. Set `PLAN` to the guide's path (for example
-   `../ledgerline-guide`).
-4. The agent works through [`TODO.md`](TODO.md) phase by phase. Every phase ends with a **Gate** (commands and
-   expected results), and the agent must not continue until the gate passes.
-5. When it finishes, the agent reports against the **Final acceptance** checklist at the end of `TODO.md`.
+3. Read [`CONTRIBUTING.md`](CONTRIBUTING.md): reading order, conflict rule and implementation rules.
+4. Work through [`BUILD_PLAN.md`](BUILD_PLAN.md) phase by phase inside the app directory. Every phase ends with a
+   **Gate** (commands and expected results); do not start the next phase until the gate passes.
+5. Finish with the **Final acceptance** checklist at the end of `BUILD_PLAN.md` and write the build report described
+   in `CONTRIBUTING.md`.
 
-If a session is interrupted, tell the agent: *"Continue TODO.md from the first phase whose gate does not pass."*
+To resume interrupted work, re-run the gates in order and continue from the first phase whose gate does not pass.
 
-**Effort and size.** Expect one or more long agent sessions. The finished app is roughly 145 files: about 7–8k lines
-of application code, about 4k lines of generated shadcn/ui primitives and about 1.6k lines of tests (61 Vitest
-cases, 5 Playwright tests). Dependencies take about 1 GB.
+**Effort and size.** The finished app is roughly 145 files: about 7–8k lines of application code, about 4k lines of
+generated shadcn/ui primitives and about 1.6k lines of tests (61 Vitest cases, 5 Playwright tests). Dependencies take
+about 1 GB.
 
-## 4. Repository map
+## 4. Repository layout
 
 | Path | Purpose |
 | --- | --- |
-| `README.md` | This blueprint: what, how to use, prerequisites |
-| `AGENT_PROMPT.md` | The prompt to paste into the coding agent |
-| `AGENTS.md` / `CLAUDE.md` | Standing guidance for agents: authoritative sources, conflict rule, conventions |
+| `README.md` | Overview, getting started, prerequisites |
+| `CONTRIBUTING.md` | Reading order, conflict rule, implementation rules, build report |
 | `ARCHITECTURE.md` | Solution architecture: principles, layers, data spine, decisions (ADRs) |
-| `TODO.md` | **The build plan.** Ordered phases with gates and the final acceptance checklist |
+| `BUILD_PLAN.md` | **The build plan.** Ordered phases with gates and the final acceptance checklist |
 | `docs/spec/README.md` | Spec index: what each spec covers, which phase reads it, where to find a given fact |
 | `docs/spec/01-Product-Spec.md` | Pages, flows, copy, functional (FR) and non-functional (NFR) requirements |
 | `docs/spec/02-Environment-and-Stack.md` | Exact versions, bootstrap commands, every config file, project layout |
@@ -72,7 +72,7 @@ cases, 5 Playwright tests). Dependencies take about 1 GB.
 
 ## 5. Success criteria
 
-The build is done when all of these hold (details in `TODO.md` → Final acceptance):
+The build is done when all of these hold (details in `BUILD_PLAN.md` → Final acceptance):
 
 | Metric | Target |
 | --- | --- |
@@ -85,12 +85,11 @@ The build is done when all of these hold (details in `TODO.md` → Final accepta
 
 ## 6. Prerequisites
 
-Install these before handing the plan to an agent.
+Install these before starting the build.
 
 | Requirement | Version | Why |
 | --- | --- | --- |
-| A coding agent | Claude Code, Codex, Cursor or similar, with shell + file access | runs the plan |
-| Git | any recent | clone this repo, init the app repo |
+| Git | any recent | clone this repository, initialise the app repository |
 | Node.js | **24 LTS** (exactly major 24; the app's `engines` is `>=24 <25`) | runtime; `better-sqlite3` ships prebuilt binaries for it |
 | pnpm | **11.x** (the app pins `pnpm@11.22.0`) | package manager; enabled through Corepack |
 | C/C++ build tools | only if no prebuilt `better-sqlite3` binary matches your OS/CPU | compile the native SQLite driver |
@@ -107,7 +106,7 @@ You do **not** need a database server, Docker, accounts, API keys or environment
 ```bash
 xcode-select --install          # build tools (skip if already installed)
 brew install node@24 git
-export PATH="$(brew --prefix node@24)/bin:$PATH"   # add to ~/.zshrc so every shell (and the agent) uses Node 24
+export PATH="$(brew --prefix node@24)/bin:$PATH"   # add to ~/.zshrc so every shell uses Node 24
 corepack enable
 ```
 
@@ -133,6 +132,6 @@ corepack pnpm -v   # 11.x  (or: pnpm -v)
 git --version
 ```
 
-If `node -v` shows a version other than 24, fix your `PATH` / nvm default **before** starting the agent. A
+If `node -v` shows a version other than 24, fix your `PATH` / nvm default **before** starting. A
 different Node major is the most common cause of "Could not locate the bindings file" errors from
-`better-sqlite3`. The agent must also see Node 24 in its own shell.
+`better-sqlite3`. Every shell and tool that runs the build must see Node 24.

@@ -219,7 +219,7 @@ only `sales.db` while leaving its `-wal` file behind can corrupt the next databa
 | Playwright: `Executable doesn't exist` | Chromium not downloaded | `pnpm test:e2e:install` |
 | e2e times out waiting for the web server | First compile slower than the timeout, or port 3200 busy | Free port 3200; re-run (timeout is 180 s) |
 | Hydration warning about the `class` attribute on `<html>` | Theme class set before hydration | `<html>` must carry `suppressHydrationWarning` |
-| `next dev` modifies `AGENTS.md` | Framework-managed agent rules block | Expected; commit the file |
+| `next dev` modifies `AGENTS.md` | Next.js maintains a managed block in that file | Expected; commit the file |
 | `tsc` errors about `RouteContext` or `LayoutProps` | Route types not generated | Use `pnpm typecheck` (runs `next typegen` first) |
 
 ## 11. Limits of operation
@@ -232,5 +232,5 @@ only `sales.db` while leaving its `-wal` file behind can corrupt the next databa
 | Refunds | Full refunds only (status change) |
 | Inventory | Not tracked |
 
-See [../../TODO.md](../../TODO.md) for when each command is used during the build and [09-Gotchas.md](09-Gotchas.md)
+See [../../BUILD_PLAN.md](../../BUILD_PLAN.md) for when each command is used during the build and [09-Gotchas.md](09-Gotchas.md)
 for stack pitfalls.
