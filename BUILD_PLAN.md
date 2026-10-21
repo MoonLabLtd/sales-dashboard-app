@@ -1,8 +1,8 @@
 # Ledgerline — Build Plan & Gates
 
 This is the build plan. It is ordered, and every phase ends with a **Gate**: a phase is done only when the
-gate results match. Work from the **repository root** of your private working repository (the directory that
-contains this file), with `SPEC` pointing to the same directory and Node 24 first on `PATH`.
+gate results match. Work from the **repository root** of your working repository, fork or private copy (the
+directory that contains this file), with `SPEC` pointing to the same directory and Node 24 first on `PATH`.
 
 ## 1. Build Approach
 
@@ -142,7 +142,7 @@ ls data 2>/dev/null && echo "UNEXPECTED data/"     # prints nothing
 
 **GATE 4**
 ```bash
-pnpm test                                                      # 9 test files, 61 tests, all passed
+pnpm test                                                      # 9 test files, 62 tests, all passed
 export SALES_DB_PATH=.tmp/p4/sales.db
 pnpm db:seed                                                   # seeds ~1,600 demo sales, 16 products, 20 customers
 pnpm db:seed; echo "exit=$?"                                   # refuses (DB not empty): exit=1
@@ -237,8 +237,8 @@ Stop the server and run `rm -rf .tmp/p7`.
 
 **GATE 8**
 ```bash
-pnpm check > .tmp/check.log 2>&1; echo "exit=$?"    # exit=0 (typecheck + lint + format:check + 61 tests)
-pnpm test:e2e > .tmp/e2e.log 2>&1; echo "exit=$?"   # exit=0; 5 passed
+pnpm check > .tmp/check.log 2>&1; echo "exit=$?"    # exit=0 (typecheck + lint + format:check + 62 tests)
+pnpm test:e2e > .tmp/e2e.log 2>&1; echo "exit=$?"   # exit=0; 6 passed
 pnpm build > .tmp/build.log 2>&1; echo "exit=$?"    # exit=0
 ls data 2>/dev/null && echo "UNEXPECTED data/"      # prints nothing: the build never opens the DB
 ```
@@ -253,8 +253,8 @@ Run every item and report the result of each with the command and the observed o
   row by row. Every FR/NFR is implemented in the named module and proved by the named test or gate. List any gaps.
 - [ ] **F2 Hygiene**: `git status --porcelain` shows no `data/`, `*.db`, `.tmp/`, `test-results/` or `.next/`
   entries (all ignored).
-- [ ] **F3 Quality**: `pnpm check` exit 0, **61** tests passed.
-- [ ] **F4 E2E**: `pnpm test:e2e` → **5** passed.
+- [ ] **F3 Quality**: `pnpm check` exit 0, **62** tests passed.
+- [ ] **F4 E2E**: `pnpm test:e2e` → **6** passed.
 - [ ] **F5 Build**: `pnpm build` exit 0. Every page route is static (○) and every `/api/*` route is dynamic (ƒ).
 - [ ] **F6 Production smoke from another working directory**:
   `cd src && SALES_DB_PATH=.tmp/smoke/sales.db PORT=3300 pnpm start` (in the background), then
@@ -291,7 +291,7 @@ Run every item and report the result of each with the command and the observed o
 
 ## Appendix B — Critical Path
 
-`P0 → P1 → P2 → P3 → P4 (61 tests) → P5 → P6 → P7 → P8 (check, e2e, build) → Final`. The path is linear because each
+`P0 → P1 → P2 → P3 → P4 (62 tests) → P5 → P6 → P7 → P8 (check, e2e, build) → Final`. The path is linear because each
 layer compiles only against earlier ones. Within a phase, independent files can be written in any order.
 
 ## Appendix C — Risk Register

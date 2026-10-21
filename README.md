@@ -32,20 +32,26 @@ The full functional specification is in [`docs/spec/01-Product-Spec.md`](docs/sp
 ## 3. Getting started
 
 The public repository is the **starting guide**: it holds the specification and build plan, not the app. Create your
-own **private working repository** from it, then build the app there, at the repository root and alongside these
-documents. Keep the spec and the app in that one repository; do not create a separate repository for the code. The
-public upstream stays documentation-only.
+own **working repository** from it (a fork or a private copy, your choice), then build the app there, at the
+repository root and alongside these documents. Keep the spec and the app in that one repository; do not create a
+separate repository for the code. The public upstream stays documentation-only.
 
 1. Install the [prerequisites](#6-prerequisites).
-2. Create a private working copy from this repository, then clone it:
+2. Create your working repository from this one, then clone it:
    ```bash
    git clone https://github.com/<your-account>/<your-repo>.git ledgerline
    cd ledgerline
    export SPEC="$(pwd)"
    ```
-   GitHub does not let you turn a public fork private, so either use **Import repository** to create a private copy,
-   or clone the fork and push it to a new private repository. `SPEC` points at the same checkout you are building
-   in: the specs and the app share one repository, and every path in the specs resolves from this root.
+   Pick one:
+   - **Fork** (simplest): click **Fork** on GitHub. A fork of a public repository is always public, so anyone can
+     see your code. **Sync fork** pulls spec updates later.
+   - **Private copy**: use **Import repository** on GitHub, or clone this repository and push it to a new private
+     repository. Only you and the people you invite can see it. Pull spec updates with
+     `git remote add upstream https://github.com/MoonLabLtd/sales-dashboard-app.git` and `git pull upstream main`.
+
+   `SPEC` points at the same checkout you are building in: the specs and the app share one repository, and every
+   path in the specs resolves from this root.
 3. Read [`CONTRIBUTING.md`](CONTRIBUTING.md): reading order, conflict rule and implementation rules.
 4. Work through [`BUILD_PLAN.md`](BUILD_PLAN.md) phase by phase from the repository root. Every phase ends with a
    **Gate** (commands and expected results); do not start the next phase until the gate passes.
@@ -55,11 +61,12 @@ public upstream stays documentation-only.
 To resume interrupted work, re-run the gates in order and continue from the first phase whose gate does not pass.
 
 **Upstream vs your working copy.** `MoonLabLtd/sales-dashboard-app` remains the documentation-only starting guide.
-Application code, configuration and migrations are committed to your private working repository only; do not open
-pull requests with app code against the public upstream.
+Application code, configuration and migrations are committed to your working repository only (your fork or your
+private copy); do not open pull requests with app code against the public upstream. On a fork, check that a pull
+request targets your own repository, not `MoonLabLtd/sales-dashboard-app`.
 
 **Effort and size.** The finished app is roughly 145 files: about 7–8k lines of application code, about 4k lines of
-generated shadcn/ui primitives and about 1.6k lines of tests (61 Vitest cases, 5 Playwright tests). Dependencies take
+generated shadcn/ui primitives and about 1.6k lines of tests (62 Vitest cases, 6 Playwright tests). Dependencies take
 about 1 GB.
 
 ## 4. Repository layout
@@ -107,7 +114,7 @@ Install these before starting the build.
 
 | Requirement | Version | Why |
 | --- | --- | --- |
-| Git | any recent | create and clone a private working repository; the app is built there |
+| Git | any recent | create and clone your working repository (fork or private copy); the app is built there |
 | Node.js | **24 LTS** (exactly major 24; the app's `engines` is `>=24 <25`) | runtime; `better-sqlite3` ships prebuilt binaries for it |
 | pnpm | **11.x** (the app pins `pnpm@11.22.0`) | package manager; enabled through Corepack |
 | C/C++ build tools | only if no prebuilt `better-sqlite3` binary matches your OS/CPU | compile the native SQLite driver |

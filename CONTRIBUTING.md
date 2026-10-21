@@ -9,10 +9,10 @@ Drizzle + better-sqlite3. One person records sales, products and customers on th
 charts, insights, analytics and CSV exports. There is no authentication, no cloud, no FX conversion and no inventory
 tracking.
 
-This public repository is the **starting guide**: it holds the specification and build plan. Create your own **private
-working repository** from it (fork or import), then build the app there, at the repository root and alongside these
-documents, by following [`BUILD_PLAN.md`](BUILD_PLAN.md). Keep the spec and the app in that one repository; do not
-create a separate repository for the application code. The public upstream stays documentation-only.
+This public repository is the **starting guide**: it holds the specification and build plan. Create your own **working
+repository** from it (a fork or a private copy, your choice), then build the app there, at the repository root and
+alongside these documents, by following [`BUILD_PLAN.md`](BUILD_PLAN.md). Keep the spec and the app in that one
+repository; do not create a separate repository for the application code. The public upstream stays documentation-only.
 
 Where [`BUILD_PLAN.md`](BUILD_PLAN.md) refers to the **app root**, read the root of your working repository (the
 directory that contains this file). The spec files under `docs/spec/` are already there and stay in place; Phase 8
@@ -39,9 +39,9 @@ resolve in the build report.
 
 ## Current state
 
-- Greenfield. The specification is complete; the app is built at the root of your private working repository,
-  beside the docs.
-- The public upstream is documentation-only. Commit application code to your private working repository (on a
+- Greenfield. The specification is complete; the app is built at the root of your working repository (fork or
+  private copy), beside the docs.
+- The public upstream is documentation-only. Commit application code to your working repository (on a
   working branch, if you prefer), never to the public starting guide.
 - All architecture decisions are closed (see `ARCHITECTURE.md`, Appendix A). The work is implementation and
   verification against the specs, not product design.

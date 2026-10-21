@@ -20,7 +20,7 @@ observed in the build report.
 | FR-01–FR-08 | Shell, skip link, sidebar, active item, collapse and drawer, tab titles | `src/app/layout.tsx`, `src/components/shell/*`, `src/lib/nav.ts`, `src/lib/ui-store.ts`, page `metadata` | T-E-02, T-E-05; browser check |
 | FR-09–FR-13 | Top bar: search button, date picker visibility, theme toggle, Add sale | `src/components/shell/top-bar.tsx`, `theme-toggle.tsx` | T-E-03, T-E-04 (Add sale); browser check |
 | FR-14–FR-19 | Global date range: presets, custom range, persistence, minute clock, previous period | `src/lib/date-range.ts`, `src/components/shell/date-range-picker.tsx`, `src/lib/queries.ts` (`useDateRange`) | T-U-13–T-U-17, T-I-20, T-I-23 |
-| FR-20–FR-23 | Command palette (⌘K / Ctrl+K), sale search, actions | `src/components/shell/command-menu.tsx` | browser check |
+| FR-20–FR-23 | Command palette (⌘K / Ctrl+K), sale search, actions | `src/components/shell/command-menu.tsx` | T-E-06; browser check |
 | FR-24–FR-29 | KPI cards, change badges, sparklines, net profit, pending/refunded note | `src/server/services/analytics.ts` (`kpis`, `series`), `src/components/dashboard/kpi-card.tsx`, `overview.tsx` | T-U-12, T-I-17–T-I-19, T-I-23; F8 |
 | FR-30–FR-36 | Overview charts, bucket rule, insights, empty period | `analytics.ts` (`dashboard`, insights), `src/components/dashboard/charts.tsx`, `overview.tsx` | T-U-16, T-U-17, T-I-21–T-I-23, T-E-01 |
 | FR-37–FR-39 | Recent sales card and its states | `overview.tsx`, `src/components/sales/sale-actions.tsx` | T-E-04; browser check |
@@ -32,9 +32,9 @@ observed in the build report.
 | FR-65–FR-67 | Row selection and bulk delete | `sales-table.tsx`, `src/components/common/confirm.tsx`, `deleteSales`, `DELETE /api/sales` | T-I-11; browser check |
 | FR-68–FR-71 | Row actions: view, edit, duplicate, delete | `sale-actions.tsx`, `GET/DELETE /api/sales/[id]` | T-I-08, T-I-11; browser check |
 | FR-72 | Sales CSV export matches the current filters and sort | `src/server/services/exports.ts` (`salesCsv`), `src/lib/csv.ts`, `/api/sales/export` | T-U-30, T-U-31, T-I-29; G5 |
-| FR-73–FR-80 | Products: list, sort, archive, delete rules, add/edit dialog, empty states | `src/components/catalog/products-view.tsx`, `src/server/services/catalog.ts`, `/api/products/**` | T-I-07, T-I-25, T-I-26; browser check |
+| FR-73–FR-80 | Products: list, sort, archive, delete rules, add/edit dialog, empty states | `src/components/catalog/products-view.tsx`, `src/server/services/catalog.ts`, `/api/products/**` | T-I-07, T-I-25, T-I-26, T-I-31; browser check |
 | FR-81–FR-85 | Categories: add, rename, case-insensitive unique, delete only when unused | `products-view.tsx`, `catalog.ts`, `/api/categories/**` | T-I-24; browser check |
-| FR-86–FR-92 | Customers: list, history sheet, add/edit, delete only without history | `src/components/customers/customers-view.tsx`, `src/server/services/customers.ts`, `/api/customers/**` | T-I-12, T-I-27; browser check |
+| FR-86–FR-92 | Customers: list, history sheet, add/edit, delete only without history | `src/components/customers/customers-view.tsx`, `src/server/services/customers.ts`, `/api/customers/**` | T-I-12, T-I-27, T-I-31; browser check |
 | FR-93–FR-101 | Analytics: trends, rankings, donuts, weekday, customers, status, report CSVs | `src/components/dashboard/analytics-view.tsx`, `analytics.ts`, `exports.ts` (`reportCsv`), `/api/reports/[report]` | T-I-21, T-I-22, T-I-30; browser check |
 | FR-102–FR-108 | Settings preferences: currency, locale, date format, default range, theme | `src/components/settings/*`, `src/server/services/settings.ts`, `/api/settings` | T-I-02 (persistence); browser check |
 | FR-109–FR-113 | Data and storage: DB path, backups, demo data, erase all | `src/server/services/maintenance.ts`, `src/server/demo-seed.ts`, `/api/system/**` | T-I-05, T-I-28; G4; F7 |

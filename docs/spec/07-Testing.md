@@ -68,11 +68,11 @@ Before the first e2e run, install the browser with `pnpm test:e2e:install` (`pla
 | `tests/integration/db.test.ts` | integration | 5 |
 | `tests/integration/sales.test.ts` | integration | 11 |
 | `tests/integration/analytics.test.ts` | integration | 7 |
-| `tests/integration/catalog.test.ts` | integration | 5 |
+| `tests/integration/catalog.test.ts` | integration | 6 |
 | `tests/integration/exports.test.ts` | integration | 2 |
-| `tests/e2e/app.spec.ts` | e2e | 5 |
+| `tests/e2e/app.spec.ts` | e2e | 6 |
 
-Totals: 61 Vitest cases in 9 files (31 unit, 30 integration) and 5 Playwright cases.
+Totals: 62 Vitest cases in 9 files (31 unit, 31 integration) and 6 Playwright cases.
 
 ## 3. Test helpers (`tests/helpers.ts`)
 
@@ -265,11 +265,12 @@ Under test from `src/server/services/catalog.ts`, `customers.ts`, `maintenance.t
 
 | ID | Title | Setup and steps | Expected |
 | --- | --- | --- | --- |
-| T-I-24 | categories: create, rename, case-insensitive unique, protected when in use | `c = createCategory(db, { name: "Tea" })`; `createCategory(db, { name: "tea" })`; `renameCategory(db, c.id, { name: "Teas" })`; `createProduct(db, { name: "Sencha", categoryId: c.id, defaultPriceMinor: 900 })`; `deleteCategory(db, c.id)` | duplicate throws `AppError` [409, `Category "tea" already exists`]; `listCategories(db)[0]` contains `name "Teas", productCount 1`; delete throws matching `/in use\|used/i` [409, `This category is used by 1 product(s). Reassign them first.`] |
+| T-I-24 | categories: create, rename, case-insensitive unique, protected when in use | `c = createCategory(db, { name: "Tea" })`; `createCategory(db, { name: "tea" })`; `renameCategory(db, c.id, { name: "Teas" })`; `createProduct(db, { name: "Sencha", categoryId: c.id, defaultPriceMinor: 900 })`; `deleteCategory(db, c.id)` | duplicate throws `AppError` [409, `Category "tea" already exists`]; `renameCategory` returns the updated row (`id c.id, name "Teas"`); `listCategories(db)[0]` contains `name "Teas", productCount 1`; delete throws matching `/in use\|used/i` [409, `This category is used by 1 product(s). Reassign them first.`] |
 | T-I-25 | unique SKUs and price validation | `createProduct` `{ name "A", sku "SKU-1", defaultPriceMinor 100 }`; then `{ name "B", sku "SKU-1", defaultPriceMinor 100 }`; then `{ name "C", defaultPriceMinor -1 }` | second throws `AppError` [409, `SKU "SKU-1" is already used by another product`]; third throws (Zod validation) |
-| T-I-26 | products with sales history are archived, not deleted | `s = sale(db, { product: "Kept" })`, `pid = s.items[0].productId`; `deleteProduct(db, pid)`; `setProductArchived(db, pid, true)`; then `unused = createProduct(db, { name: "Unused", defaultPriceMinor: 100 })`, `updateProduct(db, unused.id, { name: "Unused 2", defaultPriceMinor: 200 })`, `deleteProduct(db, unused.id)` | delete of `pid` throws `AppError` [409, `This product appears in past sales. Archive it instead to keep history intact.`]; `listProducts(db)` does not contain `pid`; `listProducts(db, { includeArchived: true })` contains it with `archived true`; `getSale(db, s.id).items[0].productName` is `"Kept"`; `unused` is absent even with `includeArchived: true` |
+| T-I-26 | products with sales history are archived, not deleted | `s = sale(db, { product: "Kept" })`, `pid = s.items[0].productId`; `deleteProduct(db, pid)`; `setProductArchived(db, pid, true)`; then `unused = createProduct(db, { name: "Unused", defaultPriceMinor: 100 })`, `updateProduct(db, unused.id, { name: "Unused 2", defaultPriceMinor: 200 })`, `deleteProduct(db, unused.id)` | delete of `pid` throws `AppError` [409, `This product appears in past sales. Archive it instead to keep history intact.`]; `setProductArchived` returns the updated row (`id pid, archived true`); `listProducts(db)` does not contain `pid`; `listProducts(db, { includeArchived: true })` contains it with `archived true`; `getSale(db, s.id).items[0].productName` is `"Kept"`; `unused` is absent even with `includeArchived: true` |
 | T-I-27 | customers with sales cannot be deleted | `c = createCustomer(db, { name: "Cy" })`; `sale` with `customer { mode: "existing", customerId: c.id }`; `deleteCustomer(db, c.id)` | throws `AppError` [409, `This customer has 1 sale(s). Customers with history cannot be deleted.`] |
 | T-I-28 | demo data is tagged and removable without touching real records | `seedDemoData(db, { now: new Date(2026, 2, 15), days: 30 })`; `before = stats(db)`; `real = sale(db, { product: "Real product" })`; `removeDemoData(db)`; `after = stats(db)` | `hasData(db)` is `true`; `before.demoSales === before.sales` and `before.sales > 0`; `after` contains `sales 1, demoSales 0, demoRows 0`; `getSale(db, real.id).items[0].productName` is `"Real product"` |
+| T-I-31 | LIKE wildcards in product and customer search are literal | `createProduct` `"100% Arabica"` and `"1000 Beans"` (price `100`); `createCustomer` `"a_b"` and `"axb"`; `listProducts(db, { q: "100%" })`; `listCustomers(db, { q: "a_b" })` | product names equal `["100% Arabica"]`; customer names equal `["a_b"]` |
 
 `stats(db)` returns `{ sales, demoSales, products, customers, categories, demoRows }`, where `demoRows` is the sum
 of `is_demo = 1` rows across sales, products, customers and categories.
@@ -296,6 +297,7 @@ earlier ones. "Heading" means the level-1 heading inside the `banner` landmark (
 | T-E-03 | validation blocks an incomplete sale | go to `/sales`; click the first `Add sale` button; in the form landmark named `Add sale`, click `Record sale` without filling anything; then click `Cancel` | an element with role `alert` is visible inside the form; the form is still visible (nothing saved); after Cancel the text `No sales yet` is visible |
 | T-E-04 | a recorded sale shows up everywhere and survives a reload | go to `/sales`; click `Add sale`; in the form choose radio `New product`; fill label `Product name` = `E2E Widget`, `Category` = `Testing`, `Qty` = `3`, `Unit price` = `12.50`; click `Record sale` | toast `Sale recorded` visible; form hidden; a table row containing `E2E Widget` is visible and contains `$37.50`; after `page.reload()` the row is still visible; on `/` the text `$37.50` is visible (first match); on `/products` a row containing `E2E Widget` is visible |
 | T-E-05 | mobile layout uses a navigation drawer | set viewport `390 × 844`; go to `/` | link `Products` (exact) is hidden; after clicking button `Toggle navigation` and then link `Products`, heading is `Products`; `document.documentElement.scrollWidth - window.innerWidth` is `<= 0` (no horizontal overflow) |
+| T-E-06 | command menu opens and jumps to a page | go to `/`; click the button named `/Search/`; in the `dialog`, fill the `combobox` with `Analytics`; click option `Analytics` (exact) | heading is `Analytics` |
 
 These cases fix the following UI contract (details in [06-Frontend-and-Design.md](06-Frontend-and-Design.md)):
 accessible names `Main navigation`, `Add sale` (button and form), `Record sale`, `Cancel`, `New product`,
@@ -307,8 +309,8 @@ defaults (walk-in customer, card, completed, tax 0) so that 3 × 12.50 totals `$
 
 | Command | Runs | Pass criterion |
 | --- | --- | --- |
-| `pnpm test` | `vitest run` | 61 passed, 0 failed, 0 skipped |
-| `pnpm test:e2e` | `playwright test` (starts its own dev server on port 3200) | 5 passed, 0 failed |
+| `pnpm test` | `vitest run` | 62 passed, 0 failed, 0 skipped |
+| `pnpm test:e2e` | `playwright test` (starts its own dev server on port 3200) | 6 passed, 0 failed |
 | `pnpm check` | `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` | exits 0 |
 | `pnpm test:e2e:install` | `playwright install chromium` | one-time setup before the first e2e run |
 

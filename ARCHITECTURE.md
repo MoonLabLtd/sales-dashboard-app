@@ -148,7 +148,7 @@ The build is staged so each layer is proven before the next depends on it. Detai
 | 1 | config + dependencies | frozen install, native SQLite loads |
 | 2 | domain library | unit tests |
 | 3 | database | migrate on a temp DB |
-| 4 | services + scripts | 61 tests; seed/backup/restore cycle |
+| 4 | services + scripts | 62 tests; seed/backup/restore cycle |
 | 5 | HTTP API | curl contract checks |
 | 6 | shell + data layer | typecheck |
 | 7 | pages | typecheck + lint + browser checks |
