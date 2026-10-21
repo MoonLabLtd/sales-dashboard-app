@@ -39,7 +39,7 @@ public upstream stays documentation-only.
 1. Install the [prerequisites](#6-prerequisites).
 2. Create a private working copy from this repository, then clone it:
    ```bash
-   git clone https://github.com/<your-account>/sales-dashboard-app.git ledgerline
+   git clone https://github.com/<your-account>/<your-repo>.git ledgerline
    cd ledgerline
    export SPEC="$(pwd)"
    ```
