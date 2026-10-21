@@ -1,8 +1,8 @@
 # Ledgerline — Build Plan & Gates
 
 This is the build plan. It is ordered, and every phase ends with a **Gate**: a phase is done only when the
-gate results match. Work from the **app root** (the empty directory you started in), with `SPEC` pointing to this
-repository and Node 24 first on `PATH`.
+gate results match. Work from the **repository root** of your private working repository (the directory that
+contains this file), with `SPEC` pointing to the same directory and Node 24 first on `PATH`.
 
 ## 1. Build Approach
 
@@ -20,7 +20,7 @@ repository and Node 24 first on `PATH`.
 Shell setup used by every phase:
 
 ```bash
-export SPEC=/absolute/path/to/ledgerline-spec    # this repository
+export SPEC="$(pwd)"                             # the root of your working repository
 export PATH="/path/to/node24/bin:$PATH"          # only if your default node is not v24
 mkdir -p .tmp
 ```
@@ -46,7 +46,9 @@ mkdir -p .tmp
 - [ ] **P0.1** Check the prerequisites. `node -v` must be v24.x. If it is not, **stop and fix the toolchain**; do
   not continue on another Node major.
 - [ ] **P0.2** Run `corepack enable` if `pnpm` is missing or not 11.x. Check that `git` is installed.
-- [ ] **P0.3** Confirm the app directory is empty (apart from hidden tool folders such as `.git` or editor settings).
+- [ ] **P0.3** Confirm the app has not been scaffolded yet: no `package.json`, `src/`, `scripts/`, `tests/` or
+  `drizzle/` at the root. The specification files are already present and stay untouched; hidden tool folders such
+  as `.git` are expected.
 
 **GATE 0**
 ```bash
@@ -61,8 +63,9 @@ git --version
 [`08-Operations.md`](docs/spec/08-Operations.md).
 
 - [ ] **P1.1** Scaffold with `create-next-app` at the pinned version and flags from 02 (TypeScript, App Router,
-  `src/` directory, Tailwind, ESLint, alias `@/*`). If it must run in a temporary directory, move the result into the
-  app root.
+  `src/` directory, Tailwind, ESLint, alias `@/*`). The repository root already contains this specification, so
+  scaffold in a temporary directory and copy the generated files into the root without overwriting `README.md`,
+  `CONTRIBUTING.md`, `ARCHITECTURE.md`, `BUILD_PLAN.md` or `docs/`.
 - [ ] **P1.2** Set `package.json` exactly as specified: `name` **`sales-dashboard`** (the DB path resolution depends
   on it), `engines`, `packageManager` and every script in the scripts table.
 - [ ] **P1.3** Add every dependency and devDependency at the **exact versions** in 02. Configure
@@ -255,7 +258,7 @@ Run every item and report the result of each with the command and the observed o
 - [ ] **F5 Build**: `pnpm build` exit 0. Every page route is static (○) and every `/api/*` route is dynamic (ƒ).
 - [ ] **F6 Production smoke from another working directory**:
   `cd src && SALES_DB_PATH=.tmp/smoke/sales.db PORT=3300 pnpm start` (in the background), then
-  `curl -s localhost:3300/api/system` shows `dbPath` = `<app root>/.tmp/smoke/sales.db` (resolved from the project
+  `curl -s localhost:3300/api/system` shows `dbPath` = `<repository root>/.tmp/smoke/sales.db` (resolved from the project
   root, **not** `src/.tmp`), and `curl -s -o /dev/null -w '%{http_code}' localhost:3300/` → `200`. Stop the server
   and run `rm -rf .tmp/smoke`.
 - [ ] **F7 Clean first run**: `rm -rf data`, run `pnpm dev`, and open `/`. `data/sales.db` is created and migrated,

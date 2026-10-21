@@ -31,26 +31,44 @@ The full functional specification is in [`docs/spec/01-Product-Spec.md`](docs/sp
 
 ## 3. Getting started
 
+The public repository is the **starting guide**: it holds the specification and build plan, not the app. Create your
+own **private working repository** from it, then build the app there, at the repository root and alongside these
+documents. Keep the spec and the app in that one repository; do not create a separate repository for the code. The
+public upstream stays documentation-only.
+
 1. Install the [prerequisites](#6-prerequisites).
-2. Clone this repository next to an **empty directory** for the app:
+2. Create a private working copy from this repository, then clone it:
    ```bash
-   git clone https://github.com/MoonLabLtd/sales-dashboard-app.git ledgerline-spec
-   mkdir ledgerline && cd ledgerline
-   export SPEC="$(cd ../ledgerline-spec && pwd)"
+   git clone https://github.com/<your-account>/sales-dashboard-app.git ledgerline
+   cd ledgerline
+   export SPEC="$(pwd)"
    ```
+   GitHub does not let you turn a public fork private, so either use **Import repository** to create a private copy,
+   or clone the fork and push it to a new private repository. `SPEC` points at the same checkout you are building
+   in: the specs and the app share one repository, and every path in the specs resolves from this root.
 3. Read [`CONTRIBUTING.md`](CONTRIBUTING.md): reading order, conflict rule and implementation rules.
-4. Work through [`BUILD_PLAN.md`](BUILD_PLAN.md) phase by phase inside the app directory. Every phase ends with a
+4. Work through [`BUILD_PLAN.md`](BUILD_PLAN.md) phase by phase from the repository root. Every phase ends with a
    **Gate** (commands and expected results); do not start the next phase until the gate passes.
 5. Finish with the **Final acceptance** checklist at the end of `BUILD_PLAN.md` and write the build report described
    in `CONTRIBUTING.md`.
 
 To resume interrupted work, re-run the gates in order and continue from the first phase whose gate does not pass.
 
+**Upstream vs your working copy.** `MoonLabLtd/sales-dashboard-app` remains the documentation-only starting guide.
+Application code, configuration and migrations are committed to your private working repository only; do not open
+pull requests with app code against the public upstream.
+
 **Effort and size.** The finished app is roughly 145 files: about 7–8k lines of application code, about 4k lines of
 generated shadcn/ui primitives and about 1.6k lines of tests (61 Vitest cases, 5 Playwright tests). Dependencies take
 about 1 GB.
 
 ## 4. Repository layout
+
+The specification lives under `docs/spec/`. In your working repository the app is created beside it, at the repository
+root, so the root of the finished repository holds both the documents below and the app's `package.json`, `src/`,
+`scripts/`, `tests/`, `drizzle/` and configuration files from
+[`02-Environment-and-Stack.md`](docs/spec/02-Environment-and-Stack.md) §5. The spec files under `docs/spec/` and the
+governance documents stay in place; Phase 8 replaces only the root `README.md` with the app's user guide.
 
 | Path | Purpose |
 | --- | --- |
@@ -89,7 +107,7 @@ Install these before starting the build.
 
 | Requirement | Version | Why |
 | --- | --- | --- |
-| Git | any recent | clone this repository, initialise the app repository |
+| Git | any recent | create and clone a private working repository; the app is built there |
 | Node.js | **24 LTS** (exactly major 24; the app's `engines` is `>=24 <25`) | runtime; `better-sqlite3` ships prebuilt binaries for it |
 | pnpm | **11.x** (the app pins `pnpm@11.22.0`) | package manager; enabled through Corepack |
 | C/C++ build tools | only if no prebuilt `better-sqlite3` binary matches your OS/CPU | compile the native SQLite driver |
